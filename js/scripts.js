@@ -18,20 +18,37 @@ let pokemonRepository = (function () {
 
   //Function to add pokemon names
 
-  function addListItem(pokemon) {
-    let listGroup = $(
-      '<div class = " col-xs-12  list-group  col-md-3  "></div>'
-    );
+  // function addListItem(pokemon) {
+  //   let listGroup = $(
+  //     '<div id="test" class = " col-xs-12  list-group  col-md-3  "></div>'
+  //   );
 
+  //   let button = $(
+  //     '<button type = "button"  class = " pokemon-name list-group-item list-group-action text-capitalize " data-toggle = "modal" data-target = "#modal-container">' +
+  //       pokemon.name +
+  //       "</button>"
+  //   );
+  //   $(listGroup).append(button);
+  //   $(row).append(listGroup);
+  //   $(container).append(row);
+  //   $(button).on("click", function () {
+  //     showDetails(pokemon);
+  //   });
+  // }
+
+  function addListItem(pokemon) {
+    let pokemonList = $(".pokemon-list");
+    let listGroup = $(
+      '<div id="list" class = " col-xs-12  list-group  col-md-3  "></div>'
+    );
     let button = $(
-      '<button type = "button" id = "myUL" class = " pokemon-name list-group-item list-group-action text-capitalize " data-toggle = "modal" data-target = "#modal-container">' +
+      '<button type = "button"  class = " pokemon-name list-group-item list-group-action text-capitalize " data-toggle = "modal" data-target = "#modal-container">' +
         pokemon.name +
         "</button>"
     );
-    $(listGroup).append(button);
-    $(row).append(listGroup);
-    $(container).append(row);
-    $(button).on("click", function () {
+    listGroup.append(button);
+    pokemonList.append(listGroup);
+    button.on("click", function (event) {
       showDetails(pokemon);
     });
   }
@@ -78,7 +95,7 @@ let pokemonRepository = (function () {
         return response;
       })
       .then(function (details) {
-        item.image = details.sprites.front_default;
+        item.image = details.sprites.other.dream_world.front_default;
         item.height = details.height;
         item.weight = details.weight;
         item.id = details.id;
@@ -183,22 +200,23 @@ pokemonRepository.loadList().then(function () {
     pokemonRepository.addListItem(pokemon);
   });
 });
+
 function myFunction() {
-  var input, filter, ul, li, a, i, txtValue;
+  let input, filter, ul, li, a, i, txtValue;
   input = document.getElementById("myInput");
-  console.log(input.value);
   filter = input.value.toUpperCase();
   ul = document.getElementById("myUL");
-  console.log(ul);
-  //li = ul.getElementsByTagName("li");
-  for (i = 0; i < ul.length; i++) {
-    a = getElementsByTagName("button")[0];
-    console.log(a);
+  li = ul.querySelectorAll("#list");
+  // console.log(li[0].querySelector("#test").getElementsByTagName("button")[0]);
+  // li = ul.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("button")[0];
+    console.log(a.innerText);
     txtValue = a.textContent || a.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
+      li[i].style.display = "";
     } else {
-      a[i].style.display = "none";
+      li[i].style.display = "none";
     }
   }
 }
